@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT SW 1</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+
+    <style>
+        :root {
+            --navy:       #0b1f3a;
+            --navy-soft:  #14305a;
+            --court:      #12805c;
+            --court-dark: #0d6347;
+            --volt:       #d7f23a;
+            --mist:       #f2f6f5;
+            --line:       #dbe4e1;
+            --text:       #1c2b3a;
+            --white:      #ffffff;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 2rem 1.25rem;
+            font-family: "Outfit", system-ui, sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 85% 15%, rgba(18, 128, 92, .55), transparent 45%),
+                linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+            background-attachment: fixed;
+        }
+
+        /* ---------- Header ---------- */
+        header {
+            text-align: center;
+            margin-bottom: .5rem;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin: 0 0 1rem;
+            padding: .3rem .9rem;
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--volt);
+            border: 1px solid rgba(215, 242, 58, .45);
+            border-radius: 999px;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.8rem, 10vw, 5rem);
+            line-height: 1;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+        h1 span { color: var(--volt); }
+
+        header p {
+            margin: .75rem 0 0;
+            color: rgba(255, 255, 255, .78);
+        }
+
+        /* ---------- Form card ---------- */
+        form {
+            width: min(26rem, 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 2rem 2rem 2.25rem;
+            background: var(--white);
+            border-top: 6px solid var(--volt);
+            border-radius: 12px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, .3);
+        }
+
+        /* the <br> tags are not needed with flex gap */
+        form br { display: none; }
+
+        input[type="text"] {
+            width: 100%;
+            padding: .8rem 1rem;
+            font: inherit;
+            color: var(--text);
+            background: var(--mist);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            transition: border-color .2s ease, background .2s ease;
+        }
+        input[type="text"]::placeholder { color: rgba(28, 43, 58, .45); }
+        input[type="text"]:focus {
+            outline: none;
+            background: var(--white);
+            border-color: var(--court);
+        }
+
+        input[type="button"] {
+            width: 100%;
+            padding: .85rem 1rem;
+            font: inherit;
+            font-weight: 600;
+            font-size: .9rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--navy);
+            background: var(--volt);
+            border: 2px solid var(--volt);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease;
+        }
+        input[type="button"]:hover {
+            color: var(--white);
+            background: var(--court);
+            border-color: var(--court);
+            transform: translateY(-2px);
+        }
+        input[type="button"]:active { transform: translateY(0); }
+        input[type="button"]:focus-visible,
+        input[type="text"]:focus-visible {
+            outline: 3px solid var(--volt);
+            outline-offset: 3px;
+        }
+
+        /* ---------- Output (main.py writes here) ---------- */
+        #div1 {
+            width: min(26rem, 100%);
+            padding: 1.1rem 1.4rem;
+            font-weight: 500;
+            color: var(--white);
+            background: rgba(255, 255, 255, .08);
+            border-left: 4px solid var(--volt);
+            border-radius: 8px;
+        }
+        #div1:empty { display: none; }
+        #div1 > * { margin: 0; }
+        #div1 > * + * { margin-top: .6rem; }
+
+        @media (max-width: 480px) {
+            form { padding: 1.5rem 1.25rem 1.75rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            input[type="text"], input[type="button"] { transition: none; }
+            input[type="button"]:hover { transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p class="eyebrow">Member Check</p>
+        <h1>Badminton <span>Club</span></h1>
+        <p>Enter your name to see if you're on the roster.</p>
+    </header>
+
+    <form>
+        <input type="text" id="fname" placeholder="Enter your first name"><br>
+        <input type="text" id="lname" placeholder="Enter your last name"><br>
+        <input type="button" py-click="get_name" value="Search">
+    </form>
+
+    <div id="div1"></div>
+    <py-script src="main.py"></py-script>
+</body>
+</html>
